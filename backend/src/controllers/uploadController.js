@@ -1,0 +1,31 @@
+const multer = require('multer');
+const path = require('path');
+const fs = require('fs');
+
+const uploadPath = path.join(__dirname, '../../upload/images');
+if (!fs.existsSync(uploadPath)) {
+  fs.mkdirSync(uploadPath, { recursive: true });
+}
+
+const storage = multer.diskStorage({
+  destination: uploadPath,
+  filename: (req, file, cb) => {
+    cb(null, `${file.fieldname}_${Date.now()}${path.extname(file.originalname)}`);
+  },
+});
+
+const upload = multer({ storage });
+
+const uploadImage = (req, res) => {
+  const PORT = 4000;
+
+  res.json({
+    success: 1,
+    image_url: `http://localhost:${PORT}/images/${req.file.filename}`,
+  });
+};
+
+module.exports = {
+  upload,
+  uploadImage,
+};
