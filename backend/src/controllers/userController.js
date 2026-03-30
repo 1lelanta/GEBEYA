@@ -3,10 +3,13 @@ const {
   findUserByEmail,
   createUser,
   addItemToCart,
+  verifyPassword,
 } = require('../services/userService');
 
 const signup = async (req, res) => {
-  const check = await findUserByEmail(req.body.email);
+  const payload = req.validatedBody || req.body;
+
+  const check = await findUserByEmail(payload.email);
   if (check) {
     return res.status(400).json({
       success: false,
@@ -14,18 +17,21 @@ const signup = async (req, res) => {
     });
   }
 
-  const user = await createUser(req.body);
+  const user = await createUser(payload);
   const token = signAuthToken(user._id);
   res.json({ success: true, token });
 };
 
 const login = async (req, res) => {
-  const user = await findUserByEmail(req.body.email);
+  const payload = req.validatedBody || req.body;
+
+  const user = await findUserByEmail(payload.email);
   if (!user) {
     return res.json({ success: false, errors: 'wrong email id' });
   }
 
-  if (req.body.password !== user.password) {
+  const isPasswordValid = await verifyPassword(payload.password, user.password);
+  if (!isPasswordValid) {
     return res.json({ success: false, errors: 'wrong Password' });
   }
 
@@ -34,16 +40,15 @@ const login = async (req, res) => {
 };
 
 const addToCart = async (req, res) => {
-  try {
-    const userData = await addItemToCart(req.user.id, req.body.itemId);
+  const payload = req.validatedBody || req.body;
 
-    if (!userData) {
-      return res.status(404).json({ success: false, message: 'User not found' });
-    }
-    res.json({ success: true, message: 'Item added to cart' });
-  } catch {
-    res.status(500).json({ success: false, message: 'Server error' });
+  const userData = await addItemToCart(req.user.id, payload.itemId);
+
+  if (!userData) {
+    return res.status(404).json({ success: false, message: 'User not found' });
   }
+
+  res.json({ success: true, message: 'Item added to cart' });
 };
 
 module.exports = {
