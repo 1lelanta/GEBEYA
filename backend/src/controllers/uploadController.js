@@ -19,6 +19,13 @@ const storage = multer.diskStorage({
 const upload = multer({ storage });
 
 const uploadImage = (req, res) => {
+  if (!req.file) {
+    return res.status(400).json({
+      success: false,
+      errors: 'No file uploaded',
+    });
+  }
+
   res.json({
     success: 1,
     image_url: buildImageUrl({ baseUrl, filename: req.file.filename }),

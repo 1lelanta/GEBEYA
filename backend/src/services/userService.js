@@ -1,4 +1,6 @@
+const bcrypt = require('bcrypt');
 const User = require('../models/User');
+const { bcryptSaltRounds } = require('../config/env');
 
 const createDefaultCart = () => {
   const cart = {};
@@ -11,10 +13,12 @@ const createDefaultCart = () => {
 const findUserByEmail = async (email) => User.findOne({ email });
 
 const createUser = async ({ userName, email, password }) => {
+  const hashedPassword = await bcrypt.hash(password, bcryptSaltRounds);
+
   const user = new User({
     name: userName,
     email,
-    password,
+    password: hashedPassword,
     cartData: createDefaultCart(),
   });
 
@@ -41,8 +45,12 @@ const addItemToCart = async (userId, itemId) => {
   return user;
 };
 
+const verifyPassword = async (plainPassword, hashedPassword) =>
+  bcrypt.compare(plainPassword, hashedPassword);
+
 module.exports = {
   findUserByEmail,
   createUser,
   addItemToCart,
+  verifyPassword,
 };

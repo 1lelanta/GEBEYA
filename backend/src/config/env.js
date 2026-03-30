@@ -2,11 +2,19 @@ require('dotenv').config();
 
 const port = Number(process.env.PORT) || 4000;
 
+const requireEnv = (name) => {
+  const value = process.env[name];
+  if (!value) {
+    throw new Error(`Missing required environment variable: ${name}`);
+  }
+
+  return value;
+};
+
 module.exports = {
   port,
-  mongoUri:
-    process.env.MONGO_URI ||
-    'mongodb+srv://lelanta:12345lelantabro@cluster0.adbu7nd.mongodb.net/e-commerce',
-  jwtSecret: process.env.JWT_SECRET || 'secret_ecom',
+  mongoUri: requireEnv('MONGO_URI'),
+  jwtSecret: requireEnv('JWT_SECRET'),
   baseUrl: process.env.BASE_URL || `http://localhost:${port}`,
+  bcryptSaltRounds: Number(process.env.BCRYPT_SALT_ROUNDS) || 10,
 };
