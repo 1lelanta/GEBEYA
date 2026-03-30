@@ -15,6 +15,8 @@ const createProduct = async (payload) => {
     category: payload.category,
     new_price: payload.new_price,
     old_price: payload.old_price,
+    new_price_etb: payload.new_price_etb,
+    old_price_etb: payload.old_price_etb,
   });
 
   await product.save();

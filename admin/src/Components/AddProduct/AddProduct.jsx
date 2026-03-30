@@ -10,7 +10,9 @@ const AddProduct = () => {
         image:"",
         category:"women",
         new_price:"",
-        old_price:""
+        old_price:"",
+        new_price_etb:"",
+        old_price_etb:""
     });
 
     const changeHandler = (e)=>{
@@ -36,13 +38,19 @@ const AddProduct = () => {
         if(reponseData.success){
             product.image = reponseData.image_url;
             console.log(product)
+            const payload = {
+                ...product,
+                new_price_etb: product.new_price_etb === '' ? undefined : Number(product.new_price_etb),
+                old_price_etb: product.old_price_etb === '' ? undefined : Number(product.old_price_etb),
+            };
+
             await fetch('http://localhost:4000/addproduct',{
                 method: 'POST',
                 headers:{
                     accept:'application/json',
                     'content-Type':'application/json'
                 },
-                body: JSON.stringify(product),
+                body: JSON.stringify(payload),
             }).then((res)=>res.json()).then((data)=>{
                 data.success?alert("Product Added"): alert("failded")  
             })
@@ -62,12 +70,22 @@ const AddProduct = () => {
         <div>
             <div className="addproduct-price">
                 <div className="addproduct-itemfield">
-                    <p>price</p>
+                    <p>Price (USD)</p>
                     <input value={productDetails.old_price} onChange={changeHandler} type="text" name='old_price' placeholder='type here' />
                 </div>
                 <div className="addproduct-itemfield">
-                    <p>Offer Price</p>
+                    <p>Offer Price (USD)</p>
                     <input value={productDetails.new_price} onChange={changeHandler} type="text" name='new_price' placeholder='type here' />
+                </div>
+            </div>
+            <div className="addproduct-price">
+                <div className="addproduct-itemfield">
+                    <p>Price (ETB market)</p>
+                    <input value={productDetails.old_price_etb} onChange={changeHandler} type="text" name='old_price_etb' placeholder='optional' />
+                </div>
+                <div className="addproduct-itemfield">
+                    <p>Offer Price (ETB market)</p>
+                    <input value={productDetails.new_price_etb} onChange={changeHandler} type="text" name='new_price_etb' placeholder='optional' />
                 </div>
             </div>
             <div className="addproduct-itemfield">

@@ -33,6 +33,8 @@ const ShopCategory = (props) => {
                   image={item.image}
                   new_price={item.new_price}
                   old_price={item.old_price}
+                  new_price_etb={item.new_price_etb}
+                  old_price_etb={item.old_price_etb}
                 />
               )
             } else {

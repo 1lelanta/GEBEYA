@@ -4,10 +4,12 @@ import './Item.css'
 import useBirrCurrency from '../../hooks/useBirrCurrency'
 
 const Item = (props) => {
-  const { formatBirr } = useBirrCurrency();
+  const { formatMarketPrice } = useBirrCurrency();
+  const oldPriceValue = props.old_price_etb ?? props.old_price;
+  const newPriceValue = props.new_price_etb ?? props.new_price;
   const discount =
-    props.old_price > props.new_price
-      ? Math.round(((props.old_price - props.new_price) / props.old_price) * 100)
+    oldPriceValue > newPriceValue
+      ? Math.round(((oldPriceValue - newPriceValue) / oldPriceValue) * 100)
       : 0;
 
   const handleViewProduct = () => {
@@ -23,10 +25,10 @@ const Item = (props) => {
       <p>{props.name}</p>
       <div className="item-prices">
         <div className="item-price-new">
-          {formatBirr(props.new_price)}
+          {formatMarketPrice(props.new_price, props.new_price_etb)}
         </div>
         <div className="item-price-old">
-          {formatBirr(props.old_price)}
+          {formatMarketPrice(props.old_price, props.old_price_etb)}
         </div>
       </div>
       <Link to={`/product/${props.id}`} className='item-action' onClick={handleViewProduct}>

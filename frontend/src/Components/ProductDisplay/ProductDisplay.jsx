@@ -8,7 +8,7 @@ import useBirrCurrency from '../../hooks/useBirrCurrency';
 const ProductDisplay = (props) => {
   const { product } = props;
   const { addToCart } = useContext(ShopContext);
-  const { formatBirr } = useBirrCurrency();
+  const { formatMarketPrice } = useBirrCurrency();
 
   // ✅ Prevent undefined errors
   if (!product) {
@@ -39,8 +39,8 @@ const ProductDisplay = (props) => {
           <p>(22)</p>
         </div>
         <div className="productdisplay-right-prices">
-          <div className="productdisplay-right-price-old">{formatBirr(product.old_price)}</div>
-          <div className="productdisplay-right-price-new">{formatBirr(product.new_price)}</div>
+          <div className="productdisplay-right-price-old">{formatMarketPrice(product.old_price, product.old_price_etb)}</div>
+          <div className="productdisplay-right-price-new">{formatMarketPrice(product.new_price, product.new_price_etb)}</div>
         </div>
         <div className="productdisplay-right-description">
           Men Green Solid Zippered Full-Zip Slim Fit Bomber Jacket

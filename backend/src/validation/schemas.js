@@ -21,6 +21,8 @@ const addProductSchema = z.object({
   category: z.string().trim().min(1).max(100),
   new_price: z.coerce.number().nonnegative(),
   old_price: z.coerce.number().nonnegative(),
+  new_price_etb: z.coerce.number().nonnegative().optional(),
+  old_price_etb: z.coerce.number().nonnegative().optional(),
 });
 
 const removeProductSchema = z.object({

@@ -53,4 +53,9 @@ const formatUsdAsBirr = (usdAmount, exchangeRate) => {
   return `${birrFormatter.format(converted)} Birr`;
 };
 
-export { DEFAULT_ETB_RATE, getUsdToEtbRate, formatUsdAsBirr };
+const formatEtbAsBirr = (etbAmount) => {
+  const amount = Number(etbAmount) || 0;
+  return `${birrFormatter.format(amount)} Birr`;
+};
+
+export { DEFAULT_ETB_RATE, getUsdToEtbRate, formatUsdAsBirr, formatEtbAsBirr };

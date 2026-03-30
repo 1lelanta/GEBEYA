@@ -28,6 +28,7 @@
 .addproduct-price{
     display: flex;
     gap: 14px;
+    flex-wrap: wrap;
 }
 .add-product-selector{
     padding: 10px;

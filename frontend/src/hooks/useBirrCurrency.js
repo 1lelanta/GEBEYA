@@ -1,5 +1,10 @@
 import { useEffect, useMemo, useState } from 'react';
-import { DEFAULT_ETB_RATE, formatUsdAsBirr, getUsdToEtbRate } from '../utils/currency';
+import {
+  DEFAULT_ETB_RATE,
+  formatEtbAsBirr,
+  formatUsdAsBirr,
+  getUsdToEtbRate,
+} from '../utils/currency';
 
 const useBirrCurrency = () => {
   const [exchangeRate, setExchangeRate] = useState(DEFAULT_ETB_RATE);
@@ -30,9 +35,33 @@ const useBirrCurrency = () => {
     [exchangeRate]
   );
 
+  const getBirrAmount = useMemo(
+    () => (usdAmount, etbAmount) => {
+      if (etbAmount !== undefined && etbAmount !== null && etbAmount !== '') {
+        return Number(etbAmount) || 0;
+      }
+
+      return (Number(usdAmount) || 0) * exchangeRate;
+    },
+    [exchangeRate]
+  );
+
+  const formatMarketPrice = useMemo(
+    () => (usdAmount, etbAmount) => {
+      if (etbAmount !== undefined && etbAmount !== null && etbAmount !== '') {
+        return formatEtbAsBirr(etbAmount);
+      }
+
+      return formatUsdAsBirr(usdAmount, exchangeRate);
+    },
+    [exchangeRate]
+  );
+
   return {
     exchangeRate,
     formatBirr,
+    getBirrAmount,
+    formatMarketPrice,
   };
 };
 
