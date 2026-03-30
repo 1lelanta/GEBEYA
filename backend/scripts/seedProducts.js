@@ -11,6 +11,8 @@ const seedProducts = [
     category: 'women',
     new_price: 59.99,
     old_price: 89.99,
+    new_price_etb: 6500,
+    old_price_etb: 8900,
   },
   {
     id: 2,
@@ -19,6 +21,8 @@ const seedProducts = [
     category: 'women',
     new_price: 74.0,
     old_price: 109.0,
+    new_price_etb: 7800,
+    old_price_etb: 10800,
   },
   {
     id: 3,
@@ -27,6 +31,8 @@ const seedProducts = [
     category: 'women',
     new_price: 48.5,
     old_price: 70.0,
+    new_price_etb: 5200,
+    old_price_etb: 7300,
   },
   {
     id: 4,
@@ -35,6 +41,8 @@ const seedProducts = [
     category: 'women',
     new_price: 85.0,
     old_price: 120.0,
+    new_price_etb: 9800,
+    old_price_etb: 12900,
   },
   {
     id: 5,
@@ -43,6 +51,8 @@ const seedProducts = [
     category: 'men',
     new_price: 52.0,
     old_price: 78.0,
+    new_price_etb: 5600,
+    old_price_etb: 7900,
   },
   {
     id: 6,
@@ -51,6 +61,8 @@ const seedProducts = [
     category: 'men',
     new_price: 95.0,
     old_price: 140.0,
+    new_price_etb: 11500,
+    old_price_etb: 14900,
   },
   {
     id: 7,
@@ -59,6 +71,8 @@ const seedProducts = [
     category: 'kid',
     new_price: 38.0,
     old_price: 59.0,
+    new_price_etb: 3900,
+    old_price_etb: 5800,
   },
   {
     id: 8,
@@ -67,6 +81,8 @@ const seedProducts = [
     category: 'kid',
     new_price: 45.0,
     old_price: 66.0,
+    new_price_etb: 5100,
+    old_price_etb: 6800,
   },
   {
     id: 9,
@@ -75,6 +91,8 @@ const seedProducts = [
     category: 'belt',
     new_price: 24.0,
     old_price: 36.0,
+    new_price_etb: 2600,
+    old_price_etb: 3600,
   },
   {
     id: 10,
@@ -83,6 +101,8 @@ const seedProducts = [
     category: 'watch',
     new_price: 129.0,
     old_price: 169.0,
+    new_price_etb: 14900,
+    old_price_etb: 18900,
   },
   {
     id: 11,
@@ -91,6 +111,8 @@ const seedProducts = [
     category: 'shoes',
     new_price: 110.0,
     old_price: 149.0,
+    new_price_etb: 13800,
+    old_price_etb: 17200,
   },
   {
     id: 12,
@@ -99,6 +121,8 @@ const seedProducts = [
     category: 'socks',
     new_price: 12.0,
     old_price: 18.0,
+    new_price_etb: 1200,
+    old_price_etb: 1800,
   },
 ];
 
