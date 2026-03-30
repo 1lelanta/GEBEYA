@@ -3,6 +3,7 @@ import './NewCollections.css'
 
 import Item from '../Items/Item'
 import { fetchJson } from '../../config/api'
+import new_collections from '../Assets/new_collections'
 
 const NewCollections = () => {
   const [new_collection, setNew_collection]=useState([])
@@ -11,10 +12,10 @@ const NewCollections = () => {
     const loadNewCollections = async () => {
       try {
         const data = await fetchJson('/newcollections');
-        setNew_collection(data);
+        setNew_collection(Array.isArray(data) && data.length > 0 ? data : new_collections);
       } catch (error) {
         console.error('Failed to load new collections:', error);
-        setNew_collection([]);
+        setNew_collection(new_collections);
       }
     };
 
