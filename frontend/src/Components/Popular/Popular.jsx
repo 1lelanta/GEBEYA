@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import './Popular.css'
 import Item from '../Items/Item'
 import { fetchJson } from '../../config/api'
+import data_product from '../Assets/data'
 
 const Popular = () => {
 
@@ -11,10 +12,10 @@ const Popular = () => {
     const loadPopularProducts = async () => {
       try {
         const data = await fetchJson('/popularinwomen');
-        setPopularProducts(data);
+        setPopularProducts(Array.isArray(data) && data.length > 0 ? data : data_product);
       } catch (error) {
         console.error('Failed to load popular products:', error);
-        setPopularProducts([]);
+        setPopularProducts(data_product);
       }
     };
 
