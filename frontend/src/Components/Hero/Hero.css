@@ -1,6 +1,6 @@
 .hero{
     height: 100vh;
-    background: linear-gradient(180deg, #e1f0ff 0%, #e6f0ff22 60%);
+    background: linear-gradient(120deg, #e6f5ec 0%, #eefaf3 45%, #f5f8ff 100%);
     display: flex;
 }
 .hero-left{
@@ -13,12 +13,12 @@
     line-height: 1.1;
 }
 .hero-left h2{
-    color: #090909;
+    color: #1f2a29;
     font-size: 26px;
     font-weight: 600;
 }
 .hero-left p{
-    color: #171717;
+    color: #1a3d37;
     font-size: 50px;
     font-weight: 700;
 }
@@ -40,10 +40,13 @@
     height: 70px;
     border-radius: 75px;
     margin-top: 30px;
-    background: #ff4141;
+    background: #0f766e;
     color: white;
     font-size: 22px;
     font-weight: 500;
+}
+.hero-latest-btn:hover{
+    background: #0b5e58;
 }
 .hero-right{
   flex: 1;

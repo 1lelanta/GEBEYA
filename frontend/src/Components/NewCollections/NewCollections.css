@@ -4,11 +4,17 @@
     align-items: center;
     gap: 10px;
     margin-bottom: 100px;
+    margin-left: 40px;
+    margin-right: 40px;
+    border-radius: 24px;
+    background: linear-gradient(180deg, #ffffff 0%, #f8fbff 100%);
+    border: 1px solid #e5edf5;
+    padding: 40px 24px;
     /* removed height:100vh to prevent overlap */
 }
 
 .new-collections h1 {
-    color: #171717;
+    color: #1c4a72;
     font-size: 50px;
     font-weight: 600;
 }
@@ -17,7 +23,7 @@
     width: 200px;
     height: 6px;
     border-radius: 10px;
-    background: #252525;
+    background: #1d6fa5;
 }
 
 .collections {
@@ -74,6 +80,11 @@
 }
 
 @media (max-width: 500px) {
+    .new-collections {
+        margin-left: 12px;
+        margin-right: 12px;
+        padding: 24px 10px;
+    }
     .collections {
         grid-template-columns: 1fr 1fr;
         gap: 15px;
