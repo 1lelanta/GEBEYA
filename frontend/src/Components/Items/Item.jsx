@@ -1,9 +1,10 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import './Item.css'
+import useBirrCurrency from '../../hooks/useBirrCurrency'
 
 const Item = (props) => {
-  const formatBirr = (price) => `${Number(price).toFixed(2)} Birr`;
+  const { formatBirr } = useBirrCurrency();
   const discount =
     props.old_price > props.new_price
       ? Math.round(((props.old_price - props.new_price) / props.old_price) * 100)

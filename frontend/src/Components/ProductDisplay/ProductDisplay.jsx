@@ -3,10 +3,12 @@ import './ProductDisplay.css';
 import star_icon from "../Assets/star_icon.png";
 import star_dull_icon from "../Assets/star_dull_icon.png";
 import { ShopContext } from '../../Contexts/ShopContext';
+import useBirrCurrency from '../../hooks/useBirrCurrency';
 
 const ProductDisplay = (props) => {
   const { product } = props;
   const { addToCart } = useContext(ShopContext);
+  const { formatBirr } = useBirrCurrency();
 
   // ✅ Prevent undefined errors
   if (!product) {
@@ -37,8 +39,8 @@ const ProductDisplay = (props) => {
           <p>(22)</p>
         </div>
         <div className="productdisplay-right-prices">
-          <div className="productdisplay-right-price-old">${product.old_price}</div>
-          <div className="productdisplay-right-price-new">${product.new_price}</div>
+          <div className="productdisplay-right-price-old">{formatBirr(product.old_price)}</div>
+          <div className="productdisplay-right-price-new">{formatBirr(product.new_price)}</div>
         </div>
         <div className="productdisplay-right-description">
           Men Green Solid Zippered Full-Zip Slim Fit Bomber Jacket
