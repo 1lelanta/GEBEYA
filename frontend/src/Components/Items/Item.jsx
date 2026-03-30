@@ -3,18 +3,34 @@ import { Link } from 'react-router-dom'
 import './Item.css'
 
 const Item = (props) => {
+  const formatBirr = (price) => `${Number(price).toFixed(2)} Birr`;
+  const discount =
+    props.old_price > props.new_price
+      ? Math.round(((props.old_price - props.new_price) / props.old_price) * 100)
+      : 0;
+
+  const handleViewProduct = () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
   return (
     <div className='item'>
-      <Link to ={`/product/${props.id}`}><img onClick={window.scrollTo(0,0)} src={props.image} alt="" /></Link>
+      <Link to={`/product/${props.id}`} className='item-image-wrap' onClick={handleViewProduct}>
+        {discount > 0 && <span className='item-badge'>{discount}% OFF</span>}
+        <img src={props.image} alt={props.name} />
+      </Link>
       <p>{props.name}</p>
       <div className="item-prices">
         <div className="item-price-new">
-          ${props.new_price}
+          {formatBirr(props.new_price)}
         </div>
         <div className="item-price-old">
-          {props.old_price} 
+          {formatBirr(props.old_price)}
         </div>
       </div>
+      <Link to={`/product/${props.id}`} className='item-action' onClick={handleViewProduct}>
+        View details
+      </Link>
     </div>
   )
 }
