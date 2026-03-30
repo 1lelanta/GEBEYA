@@ -5,8 +5,8 @@ import remove_icon from '../Assets/cart_cross_icon.png'
 import useBirrCurrency from '../../hooks/useBirrCurrency'
 
 const CartItems = () => {
-    const {getTotalCartAmount, all_product, cartItems, removeFromCart} = useContext(ShopContext);
-    const { formatBirr, formatMarketPrice, getBirrAmount } = useBirrCurrency();
+    const { all_product, cartItems, removeFromCart } = useContext(ShopContext);
+    const { formatMarketPrice, getBirrAmount } = useBirrCurrency();
 
     const subtotalBirr = all_product.reduce((total, product) => {
         const quantity = cartItems[product.id] || 0;
@@ -36,7 +36,14 @@ const CartItems = () => {
                 <p>{e.name}</p>
                 <p>{formatMarketPrice(e.new_price, e.new_price_etb)}</p>
                 <button className='cartitems-quantity'>{cartItems[e.id]}</button>
-                <p>{formatMarketPrice(e.new_price * cartItems[e.id], (e.new_price_etb || 0) * cartItems[e.id])}</p>
+                                <p>
+                                    {formatMarketPrice(
+                                        e.new_price * cartItems[e.id],
+                                        e.new_price_etb !== undefined && e.new_price_etb !== null
+                                            ? e.new_price_etb * cartItems[e.id]
+                                            : undefined
+                                    )}
+                                </p>
                 <img className='cartitems-remove-icon' src={remove_icon} onClick = {()=>removeFromCart(e.id)}alt="" />
                 
             </div>
@@ -51,7 +58,7 @@ const CartItems = () => {
                 <div>
                     <div className="cartitems-total-item">
                         <p>Subtotal</p>
-                        <p>{formatBirr(subtotalBirr / (getTotalCartAmount() ? getTotalCartAmount() : 1) * getTotalCartAmount())}</p>
+                        <p>{formatMarketPrice(0, subtotalBirr)}</p>
                     </div>
                     <hr />
                     <div className="cartitems-total-item">
@@ -61,7 +68,7 @@ const CartItems = () => {
                     <hr />
                     <div className="cartitems-total-item">
                         <h3>Total</h3>
-                        <h3>{formatBirr(subtotalBirr / (getTotalCartAmount() ? getTotalCartAmount() : 1) * getTotalCartAmount())}</h3>
+                        <h3>{formatMarketPrice(0, subtotalBirr)}</h3>
                     </div>
                 </div>
                 <button>PROCEED TO CHECKOUT</button>
