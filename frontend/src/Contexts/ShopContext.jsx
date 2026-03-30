@@ -1,4 +1,5 @@
 import React, { createContext, useEffect, useState } from "react";
+import { fetchJson } from "../config/api";
 
 export const ShopContext = createContext(null);
 
@@ -13,9 +14,17 @@ const ShopContextProvider = ({ children }) => {
   const [cartItems, setCartItems] = useState(getDefaultCart());
 
   useEffect(() => {
-    fetch("http://localhost:4000/allproducts")
-      .then((res) => res.json())
-      .then((data) => setAll_product(data));
+    const loadProducts = async () => {
+      try {
+        const data = await fetchJson("/allproducts");
+        setAll_product(data);
+      } catch (error) {
+        console.error("Failed to load products:", error);
+        setAll_product([]);
+      }
+    };
+
+    loadProducts();
   }, []);
 
   const addToCart = (itemId) => {
@@ -23,7 +32,7 @@ const ShopContextProvider = ({ children }) => {
 
     const token = localStorage.getItem("auth-token");
     if (token) {
-      fetch("http://localhost:4000/addtocart", {
+      fetchJson("/addtocart", {
         method: "POST",
         headers: {
           Accept: "application/json",
@@ -32,9 +41,8 @@ const ShopContextProvider = ({ children }) => {
         },
         body: JSON.stringify({ itemId }),
       })
-        .then((res) => res.json())
         .then((data) => console.log("Add to cart response:", data))
-        .catch((err) => console.error(err));
+        .catch((error) => console.error("Failed to add item to cart:", error));
     }
   };
 

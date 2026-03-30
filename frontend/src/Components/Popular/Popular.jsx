@@ -1,16 +1,25 @@
 import React, { useEffect, useState } from 'react'
 import './Popular.css'
 import Item from '../Items/Item'
+import { fetchJson } from '../../config/api'
 
 const Popular = () => {
 
   const [popularProducts, setPopularProducts] = useState([]);
 
-  useEffect(()=>{
-    fetch('http://localhost:4000/popularinwomen')
-    .then((response)=>response.json())
-    .then((data)=>setPopularProducts(data));
-  },[])
+  useEffect(() => {
+    const loadPopularProducts = async () => {
+      try {
+        const data = await fetchJson('/popularinwomen');
+        setPopularProducts(data);
+      } catch (error) {
+        console.error('Failed to load popular products:', error);
+        setPopularProducts([]);
+      }
+    };
+
+    loadPopularProducts();
+  }, []);
   return (
     <div className='popular'>
         <h1>POPULAR IN WOMEN</h1>

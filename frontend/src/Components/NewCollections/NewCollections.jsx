@@ -2,14 +2,24 @@ import React, { useEffect, useState } from 'react'
 import './NewCollections.css'
 
 import Item from '../Items/Item'
+import { fetchJson } from '../../config/api'
 
 const NewCollections = () => {
   const [new_collection, setNew_collection]=useState([])
 
-  useEffect(()=>{
-    fetch('http://localhost:4000/newcollections').then((response)=>response.json())
-     .then((data)=>setNew_collection(data));
-  },[])
+  useEffect(() => {
+    const loadNewCollections = async () => {
+      try {
+        const data = await fetchJson('/newcollections');
+        setNew_collection(data);
+      } catch (error) {
+        console.error('Failed to load new collections:', error);
+        setNew_collection([]);
+      }
+    };
+
+    loadNewCollections();
+  }, []);
   return (
     <div className='new-collections'>
         <h1>NEW COLLECTIONS</h1>
