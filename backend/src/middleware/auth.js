@@ -1,4 +1,4 @@
-const jwt = require('jsonwebtoken');
+const { verifyAuthToken } = require('../services/tokenService');
 
 const fetchUser = async (req, res, next) => {
   const token = req.header('auth-token');
@@ -7,7 +7,7 @@ const fetchUser = async (req, res, next) => {
   }
 
   try {
-    const data = jwt.verify(token, 'secret_ecom');
+    const data = verifyAuthToken(token);
     req.user = data.user;
     next();
   } catch {

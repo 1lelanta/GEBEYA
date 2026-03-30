@@ -1,6 +1,8 @@
 const multer = require('multer');
 const path = require('path');
 const fs = require('fs');
+const { baseUrl } = require('../config/env');
+const { buildImageUrl } = require('../services/uploadService');
 
 const uploadPath = path.join(__dirname, '../../upload/images');
 if (!fs.existsSync(uploadPath)) {
@@ -17,11 +19,9 @@ const storage = multer.diskStorage({
 const upload = multer({ storage });
 
 const uploadImage = (req, res) => {
-  const PORT = 4000;
-
   res.json({
     success: 1,
-    image_url: `http://localhost:${PORT}/images/${req.file.filename}`,
+    image_url: buildImageUrl({ baseUrl, filename: req.file.filename }),
   });
 };
 
