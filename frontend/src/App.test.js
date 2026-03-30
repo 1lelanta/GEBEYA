@@ -1,8 +1,27 @@
 import { render, screen } from '@testing-library/react';
 import App from './App';
+import ShopContextProvider from './Contexts/ShopContext';
 
-test('renders learn react link', () => {
-  render(<App />);
-  const linkElement = screen.getByText(/learn react/i);
-  expect(linkElement).toBeInTheDocument();
+beforeEach(() => {
+  global.fetch = jest.fn(() =>
+    Promise.resolve({
+      json: () => Promise.resolve([]),
+    })
+  );
+});
+
+afterEach(() => {
+  jest.clearAllMocks();
+});
+
+test('renders primary navbar entries', () => {
+  render(
+    <ShopContextProvider>
+      <App />
+    </ShopContextProvider>
+  );
+
+  expect(screen.getByText('SHOPPER')).toBeInTheDocument();
+  expect(screen.getByText('Shop')).toBeInTheDocument();
+  expect(screen.getByText('Women')).toBeInTheDocument();
 });
