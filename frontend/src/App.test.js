@@ -1,41 +1,29 @@
 import { render, screen } from '@testing-library/react';
 import React from 'react';
-import App from './App';
-import ShopContextProvider from './Contexts/ShopContext';
+import Navbar from './Components/Navbar/Navbar';
+import { ShopContext } from './Contexts/ShopContext';
 
 jest.mock(
   'react-router-dom',
   () => ({
-    BrowserRouter: ({ children }) => <div>{children}</div>,
-    Routes: ({ children }) => <div>{children}</div>,
-    Route: ({ element }) => element || null,
     Link: ({ children }) => <a>{children}</a>,
     useNavigate: () => jest.fn(),
-    useParams: () => ({ productId: '1' }),
   }),
   { virtual: true }
 );
 
-beforeEach(() => {
-  global.fetch = jest.fn(() =>
-    Promise.resolve({
-      json: () => Promise.resolve([]),
-    })
-  );
-});
+test('renders customer navbar links', () => {
+  const contextValue = {
+    getTotalCartItems: () => 0,
+  };
 
-afterEach(() => {
-  jest.clearAllMocks();
-});
-
-test('renders primary navbar entries', () => {
   render(
-    <ShopContextProvider>
-      <App />
-    </ShopContextProvider>
+    <ShopContext.Provider value={contextValue}>
+      <Navbar />
+    </ShopContext.Provider>
   );
 
-  expect(screen.getByText('SHOPPER')).toBeInTheDocument();
+  expect(screen.getByRole('button', { name: 'Login' })).toBeInTheDocument();
   expect(screen.getByText('Shop')).toBeInTheDocument();
   expect(screen.getByText('Women')).toBeInTheDocument();
 });
