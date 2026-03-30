@@ -1,8 +1,12 @@
-const jwt = require('jsonwebtoken');
-const User = require('../models/User');
+const { signAuthToken } = require('../services/tokenService');
+const {
+  findUserByEmail,
+  createUser,
+  addItemToCart,
+} = require('../services/userService');
 
 const signup = async (req, res) => {
-  const check = await User.findOne({ email: req.body.email });
+  const check = await findUserByEmail(req.body.email);
   if (check) {
     return res.status(400).json({
       success: false,
@@ -10,25 +14,13 @@ const signup = async (req, res) => {
     });
   }
 
-  const cart = {};
-  for (let i = 0; i < 300; i += 1) {
-    cart[i] = 0;
-  }
-
-  const user = new User({
-    name: req.body.userName,
-    email: req.body.email,
-    password: req.body.password,
-    cartData: cart,
-  });
-
-  await user.save();
-  const token = jwt.sign({ user: { id: user._id } }, 'secret_ecom');
+  const user = await createUser(req.body);
+  const token = signAuthToken(user._id);
   res.json({ success: true, token });
 };
 
 const login = async (req, res) => {
-  const user = await User.findOne({ email: req.body.email });
+  const user = await findUserByEmail(req.body.email);
   if (!user) {
     return res.json({ success: false, errors: 'wrong email id' });
   }
@@ -37,26 +29,17 @@ const login = async (req, res) => {
     return res.json({ success: false, errors: 'wrong Password' });
   }
 
-  const token = jwt.sign({ user: { id: user._id } }, 'secret_ecom');
+  const token = signAuthToken(user._id);
   res.json({ success: true, token });
 };
 
 const addToCart = async (req, res) => {
   try {
-    const userData = await User.findById(req.user.id);
+    const userData = await addItemToCart(req.user.id, req.body.itemId);
 
     if (!userData) {
       return res.status(404).json({ success: false, message: 'User not found' });
     }
-
-    const itemId = req.body.itemId;
-    if (userData.cartData[itemId] !== undefined) {
-      userData.cartData[itemId] += 1;
-    } else {
-      userData.cartData[itemId] = 1;
-    }
-
-    await userData.save();
     res.json({ success: true, message: 'Item added to cart' });
   } catch {
     res.status(500).json({ success: false, message: 'Server error' });
